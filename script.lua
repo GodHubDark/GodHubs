@@ -1,10 +1,10 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/GodHubDark/GodHubs/main/script.lua"))()
 local MarketplaceService = game:GetService("MarketplaceService")
 local PlaceId = game.PlaceId
 local ProductInfo = MarketplaceService:GetProductInfo(PlaceId)
 local GameName = ProductInfo.Name
 
-Fluent:Notify({ Title = "Script executado com sucesso", Content = "VocÃª estÃ¡ usando GodHub" })
+Fluent:Notify({ Title = "Script executado com sucesso", Content = "Você está usando GodHub" })
 
 local Window = Fluent:CreateWindow({
     Title = "GodHub",  -- Alterado para GodHub
@@ -18,12 +18,12 @@ local Window = Fluent:CreateWindow({
 
 local Tabs = {
     AutoFarm = Window:AddTab({ Title = "Auto Farm", Icon = "sword" }),
-    Creditos = Window:AddTab({ Title = "CrÃ©ditos", Icon = "heart" })
+    Creditos = Window:AddTab({ Title = "Créditos", Icon = "heart" })
 }
 
 local autoEnergy = false
 local autoRank = false
-local autoTrickUpgrade = false  -- VariÃ¡vel para controlar o "Trick Upgrade"
+local autoTrickUpgrade = false  -- Variável para controlar o "Trick Upgrade"
 
 -- Toggle Auto Energy
 Tabs.AutoFarm:AddToggle("Auto Energy", {
@@ -100,12 +100,12 @@ Tabs.AutoFarm:AddToggle("Auto Trick Upgrade", {
     end
 end)
 
--- CrÃ©ditos
+-- Créditos
 Tabs.Creditos:AddParagraph({
     Title = "Criado por GodHub",  -- Alterado para GodHub
     Content = "Aproveite o script! Desenvolvido por GodHub para facilitar seu jogo."
 })
 Tabs.Creditos:AddParagraph({
     Title = "Apoio",
-    Content = "Agradecimentos a Fluent por fornecer a interface visual incrÃ­vel!"
+    Content = "Agradecimentos a Fluent por fornecer a interface visual incrível!"
 })

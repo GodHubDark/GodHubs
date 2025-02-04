@@ -1,0 +1,100 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local MarketplaceService = game:GetService("MarketplaceService")
+local PlaceId = game.PlaceId
+local ProductInfo = MarketplaceService:GetProductInfo(PlaceId)
+local GameName = ProductInfo.Name
+
+Fluent:Notify({ Title = "Script executado com sucesso", Content = "Você está usando Mender_hub" })
+
+local Window = Fluent:CreateWindow({
+    Title = "Mender_hub",
+    SubTitle = "-- " .. GameName,
+    TabWidth = 102,
+    Size = UDim2.fromOffset(450, 320),
+    Acrylic = false,
+    Theme = "dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" })    
+}
+
+-- Quantidade de ovos ajustável (até 1.000)
+local eggQuantity = 10  -- Padrão x10, pode ser alterado pelo usuário
+local maxEggs = 1000  -- Máximo permitido
+
+Tabs.Main:AddSlider({
+    Title = "Quantidade de Ovos",
+    Description = "Escolha quantos ovos abrir por vez.",
+    Default = 10,
+    Min = 1,
+    Max = maxEggs,
+    Callback = function(value)
+        eggQuantity = value
+    end
+})
+
+-- Contador de ovos abertos
+local eggsOpened = 0
+
+-- Função para Summon com Loop até 1K
+local function summonEggs()
+    local totalSummoned = 0
+
+    while totalSummoned < eggQuantity do
+        local summonAmount = math.min(10, eggQuantity - totalSummoned) -- Abre no máximo 10 por vez
+
+        local args = {
+            [1] = "Summon",
+            [2] = "Summon",
+            [3] = {
+                ["Instance"] = workspace.Client.Maps:FindFirstChild("Namek Island").Summon.Currency,
+                ["Map"] = "Namek Island"
+            },
+            [4] = "x" .. tostring(summonAmount)
+        }
+
+        game:GetService("ReplicatedStorage").Bridge:FireServer(unpack(args))
+        totalSummoned = totalSummoned + summonAmount
+        eggsOpened = eggsOpened + summonAmount
+        wait(0.1) -- Delay mínimo
+    end
+
+    Fluent:Notify({ Title = "Summon Finalizado", Content = "Total de ovos abertos: " .. eggsOpened })
+end
+
+-- Botão de Summon
+Tabs.Main:AddButton({ Title = "Summon Namek Egg", Callback = function() 
+    eggsOpened = 0
+    summonEggs()
+end})
+
+-- Variável de controle para Auto Egg
+local autoEggEnabled = false
+
+-- Função Auto Namek Egg Melhorada
+local function autoSummonEgg()
+    while autoEggEnabled do
+        summonEggs()
+        wait(0.1) -- Delay mínimo
+    end
+end
+
+-- Toggle para Auto Namek Egg
+Tabs.Main:AddToggle({
+    Title = "Auto Namek Egg",
+    Description = "Ativa/desativa abertura automática de ovos.",
+    Default = false,
+    Callback = function(state)
+        autoEggEnabled = state
+
+        if state then
+            eggsOpened = 0
+            Fluent:Notify({ Title = "Auto Namek Egg", Content = "Ativado com x" .. eggQuantity .. " ovos!" })
+            autoSummonEgg()
+        else
+            Fluent:Notify({ Title = "Auto Namek Egg", Content = "Desativado!" })
+        end
+    end
+})

@@ -4,10 +4,10 @@ local PlaceId = game.PlaceId
 local ProductInfo = MarketplaceService:GetProductInfo(PlaceId)
 local GameName = ProductInfo.Name
 
-Fluent:Notify({ Title = "Script executado com sucesso", Content = "Você está usando Mender_hub" })
+Fluent:Notify({ Title = "Script executado com sucesso", Content = "Você está usando GodHub" })
 
 local Window = Fluent:CreateWindow({
-    Title = "Mender_hub",
+    Title = "GodHub",
     SubTitle = "-- " .. GameName,
     TabWidth = 102,
     Size = UDim2.fromOffset(450, 320),
